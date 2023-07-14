@@ -13,3 +13,4 @@ param apimPublisherEmail = 'chhouse@microsoft.com'
 param apimPublisherName = 'Chris House'
 param apimSkuCapacity = 1
 param apimSkuName = 'Developer'
+param deployWafSolution = true

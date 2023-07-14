@@ -41,3 +41,7 @@ resource apim 'Microsoft.ApiManagement/service@2023-03-01-preview' = {
     publicIpAddressId: publicIpAddressId
   }
 }
+
+output gatewayEndpoint string = apim.properties.gatewayUrl
+output managementApiEndpoint string = apim.properties.managementApiUrl
+output developerPortalEndpoint string = apim.properties.developerPortalUrl

@@ -18,18 +18,21 @@ param apimSkuName string = 'Developer'
 param apimSkuCapacity int = 1
 param apimPublisherName string
 param apimPublisherEmail string
+param deployWafSolution bool = true
 
 // Deployment names
 var apimNsgDeploymentName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-apimnsg-${buildId}'
 var vnetDeploymentName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-vnet-${buildId}'
 var apimDeploymentName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-apim-${buildId}'
 var pipDeploymentName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-pip-${buildId}'
+var frontDoorDeploymentName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-afd-${buildId}'
 
 // Resource names
 var virtualNetworkName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-vnet'
 var nsgName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-nsg'
 var apimName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-apim-${buildId}'
 var pipName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-pip'
+var frontDoorName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-afd'
 
 module apimNsg './modules/apimNetworkSecurityGroup.bicep' = if (virtualNetworkType != 'None') {
   name: apimNsgDeploymentName
@@ -72,5 +75,13 @@ module apim './modules/apiManagement.bicep' = {
     skuName: apimSkuName
     skuCapacity: apimSkuCapacity
     publicIpAddressId: apimPip.outputs.id
+  }
+}
+
+module frontDoor './modules/azureFrontDoor.bicep' = {
+  name: ''
+  params: {
+    apimGatewayEndpoint: apim.outputs.gatewayEndpoint
+    frontDoorBaseName: frontDoorName
   }
 }
