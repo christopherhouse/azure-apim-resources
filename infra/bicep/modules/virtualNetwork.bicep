@@ -40,4 +40,4 @@ resource vnet'Microsoft.Network/virtualNetworks@2023-02-01' = {
   }
 }
 
-output apimSubnetId string = resourceId(vnet.id, 'Microsoft.Network/virtualNetworks/subnets', virtualNetworkName, 'APIM')
+output apimSubnetId string = resourceId('Microsoft.Network/virtualNetworks/subnets', virtualNetworkName, 'APIM')

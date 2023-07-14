@@ -19,14 +19,17 @@ param apimSkuCapacity int = 1
 param apimPublisherName string
 param apimPublisherEmail string
 
+// Deployment names
 var apimNsgDeploymentName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-apimnsg-${buildId}'
 var vnetDeploymentName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-vnet-${buildId}'
-var apimDeploymentName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-apim-${buildId}}'
+var apimDeploymentName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-apim-${buildId}'
+var pipDeploymentName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-pip-${buildId}'
 
 // Resource names
 var virtualNetworkName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-vnet'
 var nsgName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-nsg'
-var apimName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-apim'
+var apimName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-apim-${buildId}'
+var pipName = '${resourceNamePrefix}-${resourceNameBaseName}-${environmentName}-pip'
 
 module apimNsg './modules/apimNetworkSecurityGroup.bicep' = if (virtualNetworkType != 'None') {
   name: apimNsgDeploymentName
@@ -48,6 +51,15 @@ module vnet './modules/virtualNetwork.bicep' = if (virtualNetworkType != 'None')
   }
 }
 
+module apimPip './modules/publicIpAddress.bicep' = {
+  name: pipDeploymentName
+  params: {
+    publicIpAddressName: pipName
+    location: location
+    dnsLabel: apimName
+  }
+}
+
 module apim './modules/apiManagement.bicep' = {
   name: apimDeploymentName
   params: {
@@ -59,5 +71,6 @@ module apim './modules/apiManagement.bicep' = {
     virtualNetworkMode: 'External'
     skuName: apimSkuName
     skuCapacity: apimSkuCapacity
+    publicIpAddressId: apimPip.outputs.id
   }
 }

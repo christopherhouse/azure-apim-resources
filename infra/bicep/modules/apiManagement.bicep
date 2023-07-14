@@ -17,6 +17,7 @@ param skuName string = 'Developer'
 param skuCapacity int = 1
 param apimPublisherName string
 param apimPublisherEmail string
+param publicIpAddressId string = ''
 
 var vnetConfiguration = subnetId != null ? {
   subnetResourceId: subnetId
@@ -37,5 +38,6 @@ resource apim 'Microsoft.ApiManagement/service@2023-03-01-preview' = {
     publisherName: apimPublisherName
     virtualNetworkType: virtualNetworkMode
     virtualNetworkConfiguration: vnetConfiguration
+    publicIpAddressId: publicIpAddressId
   }
 }
