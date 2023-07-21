@@ -17,4 +17,11 @@ terraform {
             version = "~>3.0"
         }
     }
+
+    backend "azurerm" {
+        resource_group_name = "apim-template"
+        storage_account_name = "cmhapimtfstate"
+        container_name = "tfstate"
+        key = "terraform.tfstate"
+    }
 }
