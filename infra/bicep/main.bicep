@@ -79,7 +79,7 @@ module apim './modules/apiManagement.bicep' = {
 }
 
 module frontDoor './modules/azureFrontDoor.bicep' = {
-  name: ''
+  name: frontDoorDeploymentName
   params: {
     apimGatewayEndpoint: apim.outputs.gatewayEndpoint
     frontDoorBaseName: frontDoorName

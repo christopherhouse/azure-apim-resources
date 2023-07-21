@@ -99,7 +99,7 @@ resource gatewayOriginGroup 'Microsoft.Cdn/profiles/originGroups@2022-11-01-prev
       successfulSamplesRequired: 2
     }
     healthProbeSettings: {
-      probePath: '/'
+      probePath: '/status-0123456789abcdef' // All APIM resources use this probe path, make sure it's a GET :D
       probeRequestType: 'GET'
       probeProtocol: 'Https'
       probeIntervalInSeconds: 30

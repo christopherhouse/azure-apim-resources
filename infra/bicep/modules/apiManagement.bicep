@@ -42,6 +42,5 @@ resource apim 'Microsoft.ApiManagement/service@2023-03-01-preview' = {
   }
 }
 
-output gatewayEndpoint string = apim.properties.gatewayUrl
-output managementApiEndpoint string = apim.properties.managementApiUrl
-output developerPortalEndpoint string = apim.properties.developerPortalUrl
+output gatewayEndpoint string = replace(replace(apim.properties.gatewayUrl, 'https://', ''), '/', '')
+output managementApiEndpoint string = replace(replace(apim.properties.managementApiUrl, 'https://', ''), '/', '')
