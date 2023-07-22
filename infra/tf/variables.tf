@@ -34,10 +34,17 @@ variable "vnet_address_space" {
 
 variable "apim_subnet_prefix" {
     type = string
+    description = "APIM subnet cidr block"
 }
 
 variable keyvault_subnet_prefix {
     type = string
+    description = "Key Vault subnet cidr block"
+}
+
+variable "storage_subnet_prefix" {
+    type = string
+    description = "Storage subnet cidr block"
 }
 
 variable "apim_publisher_email" {
@@ -62,9 +69,30 @@ variable "apim_sku_name" {
     }
 }
 
+variable "apim_vnet_integration_type" {
+    type = string
+    description = "APIM virtual network integration type"
+
+    validation {
+        condition = contains(["Internal", "External", "None"], var.apim_vnet_integration_type)
+        error_message = "Invalid virtual network type, must be Internal, External or None"  
+    }
+}
+
 variable "deploy_waf_solution" {
     type = bool
     description = "Deploy WAF solution"
 
     default = false
+}
+
+variable "storage_sku" {
+  type = string
+  description = "Sku of the storage account"
+  default = "GRS"
+
+  validation {
+        condition = contains(["LRS", "GRS", "RAGRS", "ZRS"], var.storage_sku)
+        error_message = "Invalid storage SKU"
+    }
 }

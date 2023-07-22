@@ -2,6 +2,25 @@ data "azurerm_resource_group" "rg" {
     name = var.resource_group_name
 }
 
+# TODO: Consolidate storage and kv nsgs since they have the same rules
+resource "azurerm_network_security_group" "storage_nsg" {
+    name = var.storage_nsg_name
+    location = data.azurerm_resource_group.rg.location
+    resource_group_name = data.azurerm_resource_group.rg.name
+
+    security_rule {
+        name = "Allow_Https_To_Vnet"
+        priority = 100
+        direction = "Inbound"
+        access = "Allow"
+        protocol = "Tcp"
+        source_port_range = "*"
+        source_address_prefix = "VirtualNetwork"
+        destination_port_range = "443"
+        destination_address_prefix = "VirtualNetwork"
+    }
+}
+
 resource "azurerm_network_security_group" "keyvault_nsg" {
     name = var.keyvault_nsg_name
     location = data.azurerm_resource_group.rg.location
@@ -71,6 +90,13 @@ resource "azurerm_subnet" "keyvault_subnet" {
     virtual_network_name = azurerm_virtual_network.vnet.name
 }
 
+resource "azurerm_subnet" "storage_subnet" {
+    name = "storage"
+    address_prefixes = [var.storage_subnet]
+    resource_group_name = data.azurerm_resource_group.rg.name
+    virtual_network_name = azurerm_virtual_network.vnet.name
+}
+
 resource "azurerm_subnet_network_security_group_association" "apim_nsg_association" {
     subnet_id = azurerm_subnet.apim_subnet.id
     network_security_group_id = azurerm_network_security_group.apim_nsg.id
@@ -79,4 +105,9 @@ resource "azurerm_subnet_network_security_group_association" "apim_nsg_associati
 resource "azurerm_subnet_network_security_group_association" "keyvault_nsg_association" {
     subnet_id = azurerm_subnet.keyvault_subnet.id
     network_security_group_id = azurerm_network_security_group.keyvault_nsg.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "storage_nsg_association" {
+    subnet_id = azurerm_subnet.storage_subnet.id
+    network_security_group_id = azurerm_network_security_group.storage_nsg.id
 }

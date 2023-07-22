@@ -4,4 +4,5 @@ resource "azurerm_public_ip" "apim_pip" {
     location = var.location
     allocation_method = "Static"
     domain_name_label = var.dns_label
+    sku = "Standard"
 }
