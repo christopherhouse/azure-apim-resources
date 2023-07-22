@@ -55,3 +55,15 @@ module "web_pe" {
     storage_account_name = local.storage_account_name
     storage_account_id = module.storage.id
 }
+
+module "afd" {
+    source = "./modules/front_door"
+    resource_group_name = var.resource_group_name
+    location = var.location
+    front_door_name = local.front_door_name
+    apim_gateway_hostname = module.apim.apim_gateway_hostname
+    primary_storage_web_hostname = module.storage.primary_web_hostname
+    secondary_storage_web_hostname = module.storage.secondary_web_hostname
+    storage_account_id = module.storage.id
+    apim_mgmt_api_hostname = module.apim.apim_mgmt_api_hostname
+}

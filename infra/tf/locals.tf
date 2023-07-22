@@ -6,4 +6,5 @@ locals {
     storage_account_name = "${replace(var.resource_name_prefix, "-", "")}${replace(var.resource_name_base_name, "-", "")}${var.environment_name}sa"
     https_to_vnet_nsg_name = "${var.resource_name_prefix}-${var.resource_name_base_name}-${var.environment_name}-https-to-vnet-nsg"
     web_private_endpoint_name = "${var.resource_name_prefix}-${var.resource_name_base_name}-${var.environment_name}-web-pe"
+    front_door_name = "${var.resource_name_prefix}-${var.resource_name_base_name}-${var.environment_name}-afd"
 }
