@@ -17,3 +17,11 @@ variable "apim_subnet" {
 variable "key_vault_subnet" {
     type = string
 }
+
+variable "apim_nsg_name" {
+    type = string
+}
+
+variable keyvault_nsg_name {
+    type = string
+}

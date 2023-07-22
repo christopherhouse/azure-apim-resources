@@ -9,5 +9,3 @@ output apim_subnet_id {
 output keyvault_subnet_id {
     value = azurerm_subnet.keyvault_subnet.id
 }
-
-#TODO: output subnet ids as discrete properties
