@@ -2,26 +2,17 @@ provider "azurerm" {
     features {}
 }
 
-locals {
-    vnet_name = "${var.resource_name_prefix}-${var.resource_name_base_name}-${var.environment_name}-vnet"
-    apim_nsg_name = "${var.resource_name_prefix}-${var.resource_name_base_name}-${var.environment_name}-apim-nsg"
-    storage_nsg_name = "${var.resource_name_prefix}-${var.resource_name_base_name}-${var.environment_name}-storage-nsg"
-    keyvault_nsg_name = "${var.resource_name_prefix}-${var.resource_name_base_name}-${var.environment_name}-keyvault-nsg"
-    apim_public_ip_name = "${var.resource_name_prefix}-${var.resource_name_base_name}-${var.environment_name}-apim-pip"
-    apim_name = "${var.resource_name_prefix}-${var.resource_name_base_name}-${var.environment_name}-apim"
-    storage_account_name = "${replace(var.resource_name_prefix, "-", "")}${replace(var.resource_name_base_name, "-", "")}${var.environment_name}sa"
-}
-
 module "vnet" {
     source = "./modules/virtual_network"
     vnet_name = local.vnet_name
     address_space = var.vnet_address_space
     resource_group_name = var.resource_group_name
+    location = var.location
     apim_subnet = var.apim_subnet_prefix
     key_vault_subnet = var.keyvault_subnet_prefix
     apim_nsg_name = local.apim_nsg_name
-    keyvault_nsg_name = local.keyvault_nsg_name
-    storage_nsg_name = local.storage_nsg_name
+    https_to_vnet_nsg_name = local.https_to_vnet_nsg_name
+    storage_subnet = var.storage_subnet_prefix
 }
 
 module "apim_pip" {
@@ -52,4 +43,15 @@ module "storage" {
     resource_group_name = var.resource_group_name
     location = var.location
     storage_sku = var.storage_sku
+}
+
+module "web_pe" {
+    source = "./modules/private_endpoint"
+    resource_group_name = var.resource_group_name
+    location = var.location
+    private_endpoint_name = local.web_private_endpoint_name
+    vnet_id = module.vnet.id
+    subnet_id = module.vnet.storage_subnet_id
+    storage_account_name = local.storage_account_name
+    storage_account_id = module.storage.id
 }

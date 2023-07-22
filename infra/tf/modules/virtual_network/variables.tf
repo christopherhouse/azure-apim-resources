@@ -3,14 +3,19 @@ variable "vnet_name" {
     description = "Name of the virtual network"
 }
 
-variable "address_space" {
-    type = string
-    description = "Address space of the virtual network"
-}
-
 variable "resource_group_name" {
     type = string
     description = "Name of the resource group"
+}
+
+variable "location" {
+    type = string
+    description = "Location of the resource virtual network to be created"
+}
+
+variable "address_space" {
+    type = string
+    description = "Address space of the virtual network"
 }
 
 variable "apim_subnet" {
@@ -33,12 +38,7 @@ variable "apim_nsg_name" {
     description = "APIM NSG name"
 }
 
-variable keyvault_nsg_name {
+variable "https_to_vnet_nsg_name" {
     type = string
-    description = "Key Vault NSG name"
-}
-
-variable storage_nsg_name {
-    type = string
-    description = "Storage NSG name"
+    description = "NSG name for allowing https traffic from vnet"
 }
