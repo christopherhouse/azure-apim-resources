@@ -23,6 +23,13 @@ module "apim_pip" {
     dns_label = local.apim_name
 }
 
+module "apim_identity" {
+    source = "./modules/user_assigned_managed_identity"
+    identity_name = local.apim_identity_name
+    resource_group_name = var.resource_group_name
+    location = var.location
+}
+
 module "apim" {
     source = "./modules/api_management"
     apim_name = local.apim_name
@@ -35,6 +42,7 @@ module "apim" {
     vnet_integration_type  = var.apim_vnet_integration_type
     apim_public_ip_id = module.apim_pip.id
     apim_subnet_id = module.vnet.apim_subnet_id
+    managed_identity_resoure_id = module.apim_identity.id
 }
 
 module "storage" {
@@ -66,4 +74,14 @@ module "afd" {
     secondary_storage_web_hostname = module.storage.secondary_web_hostname
     storage_account_id = module.storage.id
     apim_mgmt_api_hostname = module.apim.apim_mgmt_api_hostname
+}
+
+module "key_vault" {
+    source = "./modules/key_vault"
+    key_vault_name = local.key_vault_name_short
+    resource_group_name = var.resource_group_name
+    location = var.location
+    admin_object_id = var.admin_object_id
+    apim_managed_identity_id = module.apim_identity.user_assigned_managed_identity_principal_id
+    resource_name_prefix = var.resource_name_prefix
 }

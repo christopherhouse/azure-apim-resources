@@ -63,3 +63,8 @@ variable "apim_subnet_id" {
     type = string
     description = "Resource id of the subnet to use for the API Management service"
 }
+
+variable "managed_identity_resoure_id" {
+    type = string
+    description = "Resource id of the managed identity to use for the API Management service"
+}

@@ -10,4 +10,8 @@ resource "azurerm_api_management" "apim" {
     virtual_network_configuration {
         subnet_id = var.apim_subnet_id
     }
+    identity {
+        type = "UserAssigned"
+        identity_ids = [var.managed_identity_resoure_id]
+    }
 }

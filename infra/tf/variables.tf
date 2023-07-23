@@ -96,3 +96,8 @@ variable "storage_sku" {
         error_message = "Invalid storage SKU"
     }
 }
+
+variable "admin_object_id" {
+    type = string
+    description = "Object ID of the admin user for Key Vault"
+}
