@@ -43,6 +43,8 @@ module "apim" {
     apim_public_ip_id = module.apim_pip.id
     apim_subnet_id = module.vnet.apim_subnet_id
     managed_identity_resoure_id = module.apim_identity.id
+    managed_identity_client_id = module.apim_identity.client_id
+    front_door_resource_guid_secret_uri = module.fdid_secret.secret_uri
 }
 
 module "storage" {
@@ -84,4 +86,11 @@ module "key_vault" {
     admin_object_id = var.admin_object_id
     apim_managed_identity_id = module.apim_identity.user_assigned_managed_identity_principal_id
     resource_name_prefix = var.resource_name_prefix
+}
+
+module "fdid_secret" {
+    source = "./modules/key_vault_secret"
+    key_vault_id = module.key_vault.id
+    secret_name = local.front_door_id_secret_name
+    secret_value = module.afd.front_door_resource_guid
 }

@@ -15,3 +15,16 @@ resource "azurerm_api_management" "apim" {
         identity_ids = [var.managed_identity_resoure_id]
     }
 }
+
+resource "azurerm_api_management_named_value" "fdid_nv" {
+    name = local.FrontDoorHeaderIdValue
+    resource_group_name = var.resource_group_name
+    api_management_name = azurerm_api_management.apim.name
+    display_name = local.FrontDoorHeaderIdValue
+    secret = true # Must be set to true for a KV reference :(
+
+    value_from_key_vault {
+        secret_id = var.front_door_resource_guid_secret_uri
+        identity_client_id = var.managed_identity_client_id
+    }
+}

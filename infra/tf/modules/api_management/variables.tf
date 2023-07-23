@@ -68,3 +68,14 @@ variable "managed_identity_resoure_id" {
     type = string
     description = "Resource id of the managed identity to use for the API Management service"
 }
+
+variable "managed_identity_client_id" {
+    type = string
+    description = "Client id of the managed identity to use for the API Management service"
+}
+
+variable "front_door_resource_guid_secret_uri" {
+    type = string
+    description = "Resource id of the front door to use for use in policy when validating requests come from front door"
+    sensitive = true
+}

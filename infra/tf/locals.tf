@@ -18,4 +18,5 @@ locals {
     apim_identity_name = "${var.resource_name_prefix}-${var.resource_name_base_name}-${var.environment_name}-apim-umi"
     key_vault_name = "${var.resource_name_prefix}${var.resource_name_base_name}${var.environment_name}kv"
     key_vault_name_short = "${substr(local.key_vault_name, 0, 19)}-${random_id.rid.hex}"
+    front_door_id_secret_name = "X-Azure-FDID"
 }
