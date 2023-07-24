@@ -75,4 +75,10 @@ resource "azurerm_key_vault" "kv" {
             "Get", "List"]
         certificate_permissions = ["Get", "List"]
     }
+
+    network_acls {
+        default_action = "Deny"
+        virtual_network_subnet_ids = [var.key_vault_subnet_id]
+        bypass = "None"
+    }
 }

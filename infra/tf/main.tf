@@ -62,8 +62,10 @@ module "web_pe" {
     private_endpoint_name = local.web_private_endpoint_name
     vnet_id = module.vnet.id
     subnet_id = module.vnet.storage_subnet_id
-    storage_account_name = local.storage_account_name
-    storage_account_id = module.storage.id
+    resource_name = local.storage_account_name
+    resource_id = module.storage.id
+    private_dns_zone_name = local.storage_web_private_dns_zone
+    subresource_names = ["Web"]
 }
 
 module "afd" {
@@ -86,6 +88,7 @@ module "key_vault" {
     admin_object_id = var.admin_object_id
     apim_managed_identity_id = module.apim_identity.user_assigned_managed_identity_principal_id
     resource_name_prefix = var.resource_name_prefix
+    key_vault_subnet_id = module.vnet.key_vault_subnet_id
 }
 
 module "fdid_secret" {

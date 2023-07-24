@@ -65,6 +65,7 @@ resource "azurerm_subnet" "keyvault_subnet" {
     address_prefixes = [var.key_vault_subnet]
     resource_group_name = var.resource_group_name
     virtual_network_name = azurerm_virtual_network.vnet.name
+    service_endpoints = ["Microsoft.KeyVault"]
 }
 
 resource "azurerm_subnet" "storage_subnet" {

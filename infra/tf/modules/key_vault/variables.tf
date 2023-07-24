@@ -27,3 +27,8 @@ variable "resource_name_prefix" {
     type = string
     description = "Prefix to be used for naming resources, used in this module as a keeper for a random id that is part of the Key Vault resource name"
 }
+
+variable "key_vault_subnet_id" {
+    type = string
+    description = "The resource id of the subnet where the Key Vault will be attached"
+}

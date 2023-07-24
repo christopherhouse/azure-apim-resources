@@ -94,24 +94,6 @@ resource "azurerm_cdn_frontdoor_origin" "portal_origin" {
     }
 }
 
-resource "azurerm_cdn_frontdoor_origin" "portal_secondary_origin" {
-    name = "apim-portal-secondary-origin"
-    cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.portal_origin_group.id
-    enabled = true
-    certificate_name_check_enabled  = true
-    host_name = var.secondary_storage_web_hostname
-    origin_host_header = var.secondary_storage_web_hostname
-    http_port = 80
-    https_port = 443
-
-    private_link {
-        request_message = "Please approve request to APIM developer portal"
-        target_type = "web"
-        location = var.location
-        private_link_target_id = var.storage_account_id
-    }
-}
-
 resource "azurerm_cdn_frontdoor_origin" "mgmt_api_origin" {
     name = "apim-mgmt-api-origin"
     cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.mgmt_api_origin_group.id
@@ -142,7 +124,7 @@ resource "azurerm_cdn_frontdoor_route" "portal_route" {
     name = "apim-gw-route"
     cdn_frontdoor_endpoint_id = azurerm_cdn_frontdoor_endpoint.portal_endpoint.id
     cdn_frontdoor_origin_group_id = azurerm_cdn_frontdoor_origin_group.portal_origin_group.id
-    cdn_frontdoor_origin_ids = [azurerm_cdn_frontdoor_origin.portal_origin.id, azurerm_cdn_frontdoor_origin.portal_secondary_origin.id]
+    cdn_frontdoor_origin_ids = [azurerm_cdn_frontdoor_origin.portal_origin.id]
     
     supported_protocols = ["Https", "Http"]
     patterns_to_match = ["/*"]

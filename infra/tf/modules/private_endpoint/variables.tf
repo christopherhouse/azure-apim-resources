@@ -23,12 +23,22 @@ variable "subnet_id" {
     description = "The resource id of the subnet that the private endpoint will be attached to"
 }
 
-variable "storage_account_id" {
+variable "resource_id" {
     type = string
-    description = "The resource id of the storage account that the private endpoint will be attached to"
+    description = "The resource id of the resource that the private endpoint will be attached to"
 }
 
-variable "storage_account_name" {
+variable "resource_name" {
     type = string
-    description = "The name of the storage account that the private endpoint will be attached to"
+    description = "The name of the resource that the private endpoint will be attached to"
+}
+
+variable "private_dns_zone_name" {
+    type = string
+    description = "The name of the private dns zone that will be created"
+}
+
+variable "subresource_names" {
+    type = list(string)
+    description = "The list of subresources for the private endpoint"
 }

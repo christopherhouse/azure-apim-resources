@@ -12,3 +12,9 @@ resource "azurerm_storage_account" "storage" {
         error_404_document = "404/index.html"
     }
 }
+
+resource "azurerm_storage_account_network_rules" "block_public" {
+    storage_account_id = azurerm_storage_account.storage.id
+    default_action = "Deny"
+    bypass = ["None"]
+}

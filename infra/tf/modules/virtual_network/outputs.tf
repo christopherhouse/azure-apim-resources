@@ -6,7 +6,7 @@ output apim_subnet_id {
     value = azurerm_subnet.apim_subnet.id
 }
 
-output keyvault_subnet_id {
+output key_vault_subnet_id {
     value = azurerm_subnet.keyvault_subnet.id
 }
 
