@@ -32,17 +32,27 @@ variable "vnet_address_space" {
     type = string
 }
 
-variable "apim_subnet_prefix" {
+variable "apim_subnet" {
     type = string
     description = "APIM subnet cidr block"
 }
 
-variable keyvault_subnet_prefix {
+variable keyvault_subnet {
     type = string
     description = "Key Vault subnet cidr block"
 }
 
-variable "storage_subnet_prefix" {
+variable "observability_subnet" {
+    type = string
+    description = "Observability subnet cidr block"
+}
+
+variable "app_subnet" {
+    type = string
+    description = "App subnet cidr block"
+}
+
+variable "storage_subnet" {
     type = string
     description = "Storage subnet cidr block"
 }
@@ -100,4 +110,15 @@ variable "storage_sku" {
 variable "admin_object_id" {
     type = string
     description = "Object ID of the admin user for Key Vault"
+}
+
+variable "home_ip_address_for_firewalls" {
+    type = string
+    description = "Home IP address, added to firewalls for various services in this deployment"
+}
+
+variable "log_retention_days" {
+    type = number
+    default = 30
+    description = "The number of days to retain logs"
 }

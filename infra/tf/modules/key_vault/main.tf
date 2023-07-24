@@ -80,5 +80,6 @@ resource "azurerm_key_vault" "kv" {
         default_action = "Deny"
         virtual_network_subnet_ids = [var.key_vault_subnet_id]
         bypass = "None"
+        ip_rules = [var.home_ip_address]
     }
 }

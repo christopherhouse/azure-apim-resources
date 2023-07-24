@@ -32,3 +32,8 @@ variable "key_vault_subnet_id" {
     type = string
     description = "The resource id of the subnet where the Key Vault will be attached"
 }
+
+variable "home_ip_address" {
+    type = string
+    description = "The public IP address of the machine from which the Key Vault will be accessed"
+}

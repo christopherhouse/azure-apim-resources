@@ -33,6 +33,16 @@ variable "storage_subnet" {
     description = "Storage subnet cidr block"
 }
 
+variable "observability_subnet" {
+    type = string
+    description = "Observability subnet cidr block"
+}
+
+variable "app_subnet" {
+    type = string
+    description = "App subnet cidr block"
+}
+
 variable "apim_nsg_name" {
     type = string
     description = "APIM NSG name"

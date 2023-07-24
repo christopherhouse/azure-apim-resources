@@ -38,7 +38,7 @@ variable "private_dns_zone_name" {
     description = "The name of the private dns zone that will be created"
 }
 
-variable "subresource_names" {
-    type = list(string)
-    description = "The list of subresources for the private endpoint"
+variable "subresource_name" {
+    type = string
+    description = "The name of the subresource for the private endpoint"
 }

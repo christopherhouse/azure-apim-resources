@@ -28,3 +28,26 @@ resource "azurerm_api_management_named_value" "fdid_nv" {
         identity_client_id = var.managed_identity_client_id
     }
 }
+
+data "azurerm_monitor_diagnostic_categories" "cats" {
+    resource_id = azurerm_api_management.apim.id
+}
+
+resource "azurerm_monitor_diagnostic_setting" "laws" {
+    name = "laws"
+    target_resource_id = azurerm_api_management.apim.id
+    log_analytics_workspace_id = var.log_analytics_workspace_id
+
+    # TODO: Figure out how to get audit logs as well
+    enabled_log {
+        category = "GatewayLogs"
+    }
+
+    enabled_log {
+        category = "WebSocketConnectionLogs"
+    }
+
+    metric {
+        category = "AllMetrics"
+    }
+}

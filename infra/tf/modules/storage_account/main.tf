@@ -17,4 +17,5 @@ resource "azurerm_storage_account_network_rules" "block_public" {
     storage_account_id = azurerm_storage_account.storage.id
     default_action = "Deny"
     bypass = ["None"]
+    ip_rules = [var.home_ip_address]
 }

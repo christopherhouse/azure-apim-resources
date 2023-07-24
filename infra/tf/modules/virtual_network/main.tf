@@ -75,6 +75,20 @@ resource "azurerm_subnet" "storage_subnet" {
     virtual_network_name = azurerm_virtual_network.vnet.name
 }
 
+resource "azurerm_subnet" "observability_subnet" {
+    name = "observability"
+    address_prefixes = [var.observability_subnet]
+    resource_group_name = var.resource_group_name
+    virtual_network_name = azurerm_virtual_network.vnet.name
+}
+
+resource "azurerm_subnet" "app_subnet" {
+    name = "app"
+    address_prefixes = [var.app_subnet]
+    resource_group_name = var.resource_group_name
+    virtual_network_name = azurerm_virtual_network.vnet.name
+}
+
 resource "azurerm_subnet_network_security_group_association" "apim_nsg_association" {
     subnet_id = azurerm_subnet.apim_subnet.id
     network_security_group_id = azurerm_network_security_group.apim_nsg.id
@@ -87,5 +101,15 @@ resource "azurerm_subnet_network_security_group_association" "keyvault_nsg_assoc
 
 resource "azurerm_subnet_network_security_group_association" "storage_nsg_association" {
     subnet_id = azurerm_subnet.storage_subnet.id
+    network_security_group_id = azurerm_network_security_group.https_vnet_nsg.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "observability_nsg_association" {
+    subnet_id = azurerm_subnet.observability_subnet.id
+    network_security_group_id = azurerm_network_security_group.https_vnet_nsg.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "app_nsg_association" {
+    subnet_id = azurerm_subnet.app_subnet.id
     network_security_group_id = azurerm_network_security_group.https_vnet_nsg.id
 }

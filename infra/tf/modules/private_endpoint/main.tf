@@ -20,7 +20,7 @@ resource "azurerm_private_endpoint" "pe" {
         name = "${var.private_endpoint_name}-connection"
         private_connection_resource_id = var.resource_id
         is_manual_connection = false
-        subresource_names = var.subresource_names
+        subresource_names = [var.subresource_name]
     }
 }
 

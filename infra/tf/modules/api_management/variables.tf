@@ -79,3 +79,8 @@ variable "front_door_resource_guid_secret_uri" {
     description = "Resource id of the front door to use for use in policy when validating requests come from front door"
     sensitive = true
 }
+
+variable "log_analytics_workspace_id" {
+    type = string
+    description = "Resource id of the log analytics workspace to use for the API Management service"
+}
